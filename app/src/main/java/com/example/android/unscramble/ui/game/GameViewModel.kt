@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 class GameViewModel : ViewModel() {
     private var wordsList: MutableList<String> = mutableListOf()
     private lateinit var currentWord: String
+
    /*private val viewModel = GameViewModel()*/
     init {
         Log.d("GameFragment", "GameViewModel created!")
@@ -17,8 +18,12 @@ class GameViewModel : ViewModel() {
         Log.d("GameFragment", "GameViewModel destroyed!")
     }
 
-    var score = 0
-    private var currentWordCount = 0
+    private var _score = 0
+    val score: Int
+        get() = _score
+    private var _currentWordCount = 0
+    val currentWordCount: Int
+        get() = _currentWordCount
 
     /*private var _currentScrambledWord = "test"*/
     private lateinit var _currentScrambledWord: String
@@ -39,7 +44,7 @@ class GameViewModel : ViewModel() {
             getNextWord()
         } else {
             _currentScrambledWord = String(tempWord)
-            ++currentWordCount
+            ++_currentWordCount
             wordsList.add(currentWord)
         }
 
@@ -47,16 +52,34 @@ class GameViewModel : ViewModel() {
 * Returns true if the current word count is less than MAX_NO_OF_WORDS.
 * Updates the next word.
 */
-        fun nextWord(): Boolean {
-            return if (currentWordCount < MAX_NO_OF_WORDS) {
-                getNextWord()
-                true
-            } else false
-        }
+
     }
 
-
-
+    fun nextWord(): Boolean {
+        return if (currentWordCount < MAX_NO_OF_WORDS) {
+            getNextWord()
+            true
+        } else false
+    }
+    private fun increaseScore() {
+        _score += SCORE_INCREASE
+    }
+    fun isUserWordCorrect(playerWord: String): Boolean {
+        if (playerWord.equals(currentWord, true)) {
+            increaseScore()
+            return true
+        }
+        return false
+    }
+    /*
+* Re-initializes the game data to restart the game.
+*/
+    fun reinitializeData() {
+        _score = 0
+        _currentWordCount = 0
+        wordsList.clear()
+        getNextWord()
+    }
     }
 
 
