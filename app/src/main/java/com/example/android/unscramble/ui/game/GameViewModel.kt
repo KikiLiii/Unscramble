@@ -1,12 +1,15 @@
 package com.example.android.unscramble.ui.game
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 
 class GameViewModel : ViewModel() {
     private var wordsList: MutableList<String> = mutableListOf()
     private lateinit var currentWord: String
+
 
    /*private val viewModel = GameViewModel()*/
     init {
@@ -26,8 +29,9 @@ class GameViewModel : ViewModel() {
         get() = _currentWordCount
 
     /*private var _currentScrambledWord = "test"*/
-    private lateinit var _currentScrambledWord: String
-    val currentScrambledWord: String
+   /* private lateinit var _currentScrambledWord: String*/
+    private val _currentScrambledWord = MutableLiveData<String>()
+    val currentScrambledWord: LiveData<String>
         get() = _currentScrambledWord
 
     private fun getNextWord() {
@@ -43,7 +47,7 @@ class GameViewModel : ViewModel() {
         if (wordsList.contains(currentWord)) {
             getNextWord()
         } else {
-            _currentScrambledWord = String(tempWord)
+            _currentScrambledWord.value = String(tempWord)
             ++_currentWordCount
             wordsList.add(currentWord)
         }
@@ -72,8 +76,8 @@ class GameViewModel : ViewModel() {
         return false
     }
     /*
-* Re-initializes the game data to restart the game.
-*/
+    * Re-initializes the game data to restart the game.
+    */
     fun reinitializeData() {
         _score = 0
         _currentWordCount = 0
