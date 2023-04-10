@@ -1,5 +1,8 @@
 package com.example.android.unscramble.ui.game
 
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.TtsSpan
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,10 +18,7 @@ class GameViewModel : ViewModel() {
         Log.d("GameFragment", "GameViewModel created!")
        /*getNextWord()*/
     }
-    override fun onCleared() {
-        super.onCleared()
-        Log.d("GameFragment", "GameViewModel destroyed!")
-    }
+
 
     private val _score = MutableLiveData(0)
     val score: LiveData<Int>
@@ -84,6 +84,8 @@ class GameViewModel : ViewModel() {
         wordsList.clear()
         getNextWord()
     }
+
+
     }
 
 
