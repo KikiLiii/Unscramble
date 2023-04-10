@@ -85,6 +85,7 @@ class GameFragment : Fragment() {
     private fun onSubmitWord() {
         val playerWord = binding.textInputEditText.text.toString()
 
+
         if (viewModel.isUserWordCorrect(playerWord)) {
             setErrorTextField(false)
             if (!viewModel.nextWord()) {
@@ -93,13 +94,9 @@ class GameFragment : Fragment() {
         } else {
             setErrorTextField(true)
         }
-
-        /*if (viewModel.nextWord()) {
-            updateNextWordOnScreen()
-        } else {
-            showFinalScoreDialog()
-        }*/
     }
+
+
 
     /*
      * Skips the current word without changing the score.
